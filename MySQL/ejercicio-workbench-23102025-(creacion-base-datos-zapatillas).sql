@@ -1,54 +1,32 @@
-CREATE SCHEMA tienda_zapatillas;
-
 USE tienda_zapatillas;
-
-CREATE TABLE zapatillas(
-	id_zapatilla INT AUTO_INCREMENT NOT NULL, 
-    modelo VARCHAR(45) NOT NULL, 
-    color VARCHAR(45) NOT NULL, 
-    PRIMARY KEY (id_zapatilla)
-    );
-    
-CREATE TABLE clientes(
-	id_cliente INT AUTO_INCREMENT NOT NULL, 
-    nombre VARCHAR(45) NOT NULL,
-    numero_telefono INT NOT NULL,
-    email VARCHAR(45) NOT NULL,
-    direccion VARCHAR(45) NOT NULL,
-    ciudad VARCHAR(45) NULL,
-    provincia VARCHAR(45) NOT NULL,
-    pais VARCHAR(45) NOT NULL,
-    codigo_postal VARCHAR(45) NOT NULL, 
-    PRIMARY KEY (id_cliente)
-    );
-    
-CREATE TABLE empleados(
-	id_empleado INT AUTO_INCREMENT NOT NULL,
-    nombre VARCHAR(45) NOT NULL,
-    tienda VARCHAR(45) NOT NULL,
-    salario INT NULL, 
-    fecha_incorporacion DATE NOT NULL, 
-    PRIMARY KEY (id_empleado)
-    );
-    
-CREATE TABLE facturas(
-	id_factura INT AUTO_INCREMENT NOT NULL,
-    numero_factura VARCHAR(45) NOT NULL,
-    fecha DATE NOT NULL, 
-    id_zapatilla INT NOT NULL,
-    id_empleado INT NOT NULL,
-    id_cliente INT NOT NULL, 
-    PRIMARY KEY (id_factura),
-    CONSTRAINT fk_zp
-		FOREIGN KEY (id_zapatilla)
-        REFERENCES zapatillas(id_zapatilla), 
-	CONSTRAINT fk_e
-		FOREIGN KEY (id_empleado)
-        REFERENCES empleados(id_empleado), 
-	CONSTRAINT fk_c
-		FOREIGN KEY (id_cliente)
-        REFERENCES clientes(id_cliente)
-	);
-		
-    
-    
+	ALTER TABLE zapatillas
+		ADD COLUMN marca VARCHAR(45) NOT NULL,
+        ADD COLUMN talla INT NOT NULL;
+        
+	ALTER TABLE empleados
+		MODIFY COLUMN salario float4;
+        
+	ALTER TABLE clientes
+		DROP COLUMN pais;
+	
+    ALTER TABLE facturas
+		ADD COLUMN total_facturas FLOAT NOT NULL;
+        
+	INSERT INTO zapatillas
+		VALUES (1, 'XQYUN', 'Negro', 'Nike', '42'),
+			   (2, 'UOPMN', 'Rosas', 'Nike', '39'),
+               (3, 'OPNYT', 'Verdes', 'Adidas', '35');
+	
+	INSERT INTO empleados
+		VALUES (1, 'Laura', 'Alcobendas', 25987, '2010-09-03'),
+               (2, 'Maria', 'Sevilla', Null, '2001-01-11'),
+               (3, 'Ester', 'Oviedo', 30165.98, '2000-11-29');
+	
+    INSERT INTO clientes
+		VALUES (1, 'Monica', 123456789, 'monica@gmail.com', 'calle Felicidad', 'Móstoles', 'Madrid', 28176),
+			   (2, 'Lorena', 678809345, 'lorena@gmail.com', 'calle Alegría', 'Barcelona', 'Barcelona', 12346),
+               (3, 'Carmen', 677545454, 'carmen@gmail.com', 'calle del Color', 'Vigo', 'Pontevedra', 23456);
+               
+        
+        
+        
